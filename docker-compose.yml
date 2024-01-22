@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: ./api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - data
+      - service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  data:
+    build:
+      context: ./data
+    environment:
+      MYSQL_DATABASE: user_hub_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root
+
+  service:
+    build:
+      context: ./service
+    depends_on:
+      - data
