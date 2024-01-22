@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class UserControllerTest {
 
+    private static final String ADD_USER_URL = "/api/users/add";
     @Autowired
     private MockMvc mockMvc;
 
@@ -25,7 +25,7 @@ class UserControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    public void testAddUser() throws Exception {
+    void testAdd_shouldOK_whenUserIsValid() throws Exception {
         UserDTO userDTO = new UserDTO();
         userDTO.setMail("test@example.com");
         userDTO.setFirstName("John");
@@ -33,14 +33,14 @@ class UserControllerTest {
         userDTO.setSurname("Smith");
         userDTO.setRole(UserRole.CUSTOMER_USER);
         String jsonRequest = objectMapper.writeValueAsString(userDTO);
-        ResultActions resultActions = mockMvc.perform(post("/api/users/add")
+        mockMvc.perform(post(ADD_USER_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testAdd_shouldReturnBadRequest_whenInvalidFirstName() throws Exception {
+    void testAdd_shouldReturnBadRequest_whenInvalidFirstName() throws Exception {
         UserDTO userDTO = new UserDTO();
         userDTO.setMail("test@example.com");
         userDTO.setFirstName("ThisIsAnInvalidFirstNameThatExceedsTwentyCharacters");
@@ -48,14 +48,14 @@ class UserControllerTest {
         userDTO.setSurname("Smith");
         userDTO.setRole(UserRole.CUSTOMER_USER);
         String jsonRequest = objectMapper.writeValueAsString(userDTO);
-        ResultActions resultActions = mockMvc.perform(post("/api/users/add")
+        mockMvc.perform(post(ADD_USER_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void testAdd_shouldReturnBadRequest_whenInvalidMail() throws Exception {
+    void testAdd_shouldReturnBadRequest_whenInvalidMail() throws Exception {
         UserDTO userDTO = new UserDTO();
         userDTO.setMail("ThisIsAnInvalidMailThatNotStandard");
         userDTO.setFirstName("John");
@@ -63,7 +63,7 @@ class UserControllerTest {
         userDTO.setSurname("Smith");
         userDTO.setRole(UserRole.CUSTOMER_USER);
         String jsonRequest = objectMapper.writeValueAsString(userDTO);
-        ResultActions resultActions = mockMvc.perform(post("/api/users/add")
+        mockMvc.perform(post(ADD_USER_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonRequest))
                 .andExpect(status().isBadRequest());

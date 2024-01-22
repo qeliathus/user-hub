@@ -13,7 +13,7 @@ import java.util.List;
 class UserConverterTest {
 
     @Test
-    public void testConvertUserToUserDTO() {
+    public void testConvert_equalUser()  {
         User user = new User();
         user.setMail("test@example.com");
         user.setFirstName("John");
@@ -32,7 +32,7 @@ class UserConverterTest {
     }
 
     @Test
-    public void testConvertListOfUsersToUserDTOList() {
+    public void testConvert_equalUsers() {
         User user1 = new User();
         user1.setMail("test1@example.com");
         user1.setFirstName("John");

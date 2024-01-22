@@ -40,7 +40,7 @@ public class UserService implements IUserService {
     @Override
     public Page<UserDTO> getAllUsers(Pageable pageable) {
         Page<User> usersPage = userRepository.findAll(pageable);
-        List<UserDTO> userDTOList = userConverter.convert(usersPage.getContent());
-        return new PageImpl<>(userDTOList, pageable, usersPage.getTotalElements());
+        List<UserDTO> users = userConverter.convert(usersPage.getContent());
+        return new PageImpl<>(users, pageable, usersPage.getTotalElements());
     }
 }

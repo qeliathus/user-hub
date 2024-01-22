@@ -9,8 +9,6 @@ services:
     depends_on:
       - data
       - service
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
 
   data:
     build:
